@@ -56,4 +56,4 @@ Planned contract tests cover valid units, pack rounding, stale offers, budget bo
 
 ## Technology decisions still open
 
-The local prototype uses Python's standard library only; this does not settle the production runtime/framework. Storage, agent framework, approval identity and deployment target are not selected. Verify the sponsor interface before choosing the adapter. An LLM may interpret requests or explain choices; it must not enforce financial authority.
+The POC uses a Python standard-library mock API and a React/TypeScript frontend built with Vite and Tailwind CSS. This does not settle the production runtime/framework. Storage, agent framework, approval identity and deployment target are not selected. Verify the sponsor interface before choosing the adapter. An LLM may interpret requests or explain choices; it must not enforce financial authority.

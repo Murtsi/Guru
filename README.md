@@ -34,6 +34,6 @@ Only use sponsor mock systems and data that the challenge permits. Synthetic dat
 
 ## Development status
 
-The isolated local prototype uses only Python's standard library. This is a prototype choice, not a final runtime/framework decision. OpenAPI/JSON Schema are proposed for our own interface. Authentication, units, tax treatment, stock semantics and order behaviour must be checked against the sponsor documentation before sponsor integration.
+The local POC uses a Python standard-library mock API and a React/TypeScript frontend built with Vite and Tailwind CSS. This is a prototype choice, not a final production stack decision. OpenAPI/JSON Schema are proposed for our own interface. Authentication, units, tax treatment, stock semantics and order behaviour must be checked against sponsor documentation before sponsor integration.
 
 The local demo run command and limits are documented in [poc/README.md](poc/README.md). No sponsor-backed integration or verified production behavior is claimed. No license has been selected; public visibility is not a license declaration.

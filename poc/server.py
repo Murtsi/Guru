@@ -4,15 +4,17 @@ from __future__ import annotations
 
 import json
 import math
+import mimetypes
 import secrets
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Lock
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).parent
+FRONTEND_DIST = ROOT / "frontend" / "dist"
 LOCK = Lock()
 REQUEST = {
     "reference": "REQ-DEMO-001",
@@ -125,10 +127,33 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/":
-            body = (ROOT / "index.html").read_bytes()
+            index = FRONTEND_DIST / "index.html"
+            if not index.is_file():
+                body = ("Guru's React frontend has not been built yet. From poc/frontend run "
+                        "npm install and npm run build.\n").encode()
+                self.send_response(503)
+                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                return
+            body = index.read_bytes()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if path.startswith("/assets/"):
+            asset = (FRONTEND_DIST / unquote(path.lstrip("/"))).resolve()
+            if not asset.is_relative_to(FRONTEND_DIST.resolve()) or not asset.is_file():
+                self.send_json({"error": "not_found"}, 404)
+                return
+            body = asset.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", mimetypes.guess_type(str(asset))[0] or "application/octet-stream")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "public, max-age=31536000, immutable")
             self.end_headers()
             self.wfile.write(body)
             return
@@ -156,6 +181,13 @@ class Handler(BaseHTTPRequestHandler):
                 if path == "/api/commit":
                     result = self.commit(data)
                     self.send_json(result, 200 if "order_id" in result else 400)
+                    return
+                if path == "/api/reset":
+                    STATE["previews"].clear()
+                    STATE["orders"].clear()
+                    STATE["audit"].clear()
+                    audit("demo_reset")
+                    self.send_json({"ok": True})
                     return
             self.send_json({"error": "not_found"}, 404)
         except (ValueError, json.JSONDecodeError) as error:

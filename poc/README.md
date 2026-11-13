@@ -1,25 +1,48 @@
-# Local synthetic POC
+# Guru local proof of concept
 
-This is a self-contained, in-memory demonstration of request matching and order authority. It does not call Valio systems and its suppliers, prices, stock, delivery evidence, approvals, and order references are fabricated.
+The POC combines a Python standard-library mock API with a React/TypeScript frontend. Offers and orders are fabricated local fixtures; the API does not connect to Valio systems.
 
-## Run
+## Run the frontend in development
 
-From the repository root, run:
+Use two terminals from the repository root.
+
+Terminal 1, start the API:
 
 ```sh
 python3 poc/server.py
 ```
 
-Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C. State is lost when the process stops.
+Terminal 2, start Vite:
 
-## Walkthrough
+```sh
+cd poc/frontend
+npm install
+npm run dev
+```
 
-1. Compare feasible and excluded synthetic offers for 1,000 L of lactose-free milk due 2026-11-16 (Europe/Helsinki).
-2. Create a preview with the €1,300 illustrative limit and commit it.
-3. Create a second preview with the €1,100 limit. Confirm commit is blocked, approve the exact preview, then commit it.
-4. Try the partial-stock, late-delivery, and standard-milk offers with the **Ask policy** button. The server refuses all three and names the unmet constraint. The cheaper standard milk cannot bypass the lactose-free requirement.
-5. Commit the same preview again; the existing synthetic order is returned.
+Open <http://127.0.0.1:5173>. Vite proxies `/api` requests to the local mock API on port 8000.
 
-## Limits before sponsor-mock integration
+## Serve the built app through Python
 
-The demo uses hard-coded synthetic fixtures and in-memory state. The approval button records a local operator decision without authentication; it demonstrates the flow, not an identity control. The sample date and economics are illustrative. Tax, stock freshness, delivery semantics, sponsor authentication, sponsor order behavior, persistent audit, and the agreed G1–G7 contracts remain unverified. Do not present local fixture values or order references as sponsor responses.
+```sh
+cd poc/frontend
+npm install
+npm run build
+cd ../..
+python3 poc/server.py
+```
+
+Open <http://127.0.0.1:8000>. The Python server serves the generated `frontend/dist` files and the same local API.
+
+## Demo flow
+
+1. Drag the milk-carton conveyor, pause it, step between offers, or switch to the list view.
+2. Select a feasible offer and move the spend-limit slider to see authority update.
+3. Create an allowed preview and commit a synthetic order.
+4. Set a lower limit, create an approval-required preview, then approve or reject that exact preview.
+5. Inspect partial-stock, late-delivery, and standard-milk cartons to see why policy blocks them.
+6. Use **Reset** to clear previews, orders, and audit events. State is also lost when the Python process stops.
+
+## POC limits
+
+Supplier names, offer prices, stock, delivery evidence, approvals, and order references are invented demo data. Approval is not authenticated. The mock API stores state in memory. The POC does not verify tax treatment, sponsor stock semantics, delivery behavior, or any production integration.
