@@ -1,6 +1,6 @@
 # Task board
 
-All implementation tasks are **not started**. Documentation setup is complete; it does not count as a working demo. Owners follow [TEAM.md](TEAM.md). P0 means the core demonstration needs it. Record blocked items with owner and reason.
+The local synthetic POC is implemented in `poc/`; it is a throwaway in-memory demonstration and does not complete sponsor-integration tasks below. B-1/B-2 and A/C tasks remain **not started** until the shared contracts and dependencies are agreed. Owners follow [TEAM.md](TEAM.md). P0 means the core demonstration needs it. Record blocked items with owner and reason.
 
 | ID | Owner | Priority | Task and acceptance criteria | Dependency |
 |---|---|---|---|---|

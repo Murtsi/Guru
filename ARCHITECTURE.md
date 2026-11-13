@@ -1,6 +1,6 @@
 # Proposed architecture
 
-**Planning document. No component is implemented and no sponsor endpoint or field below is an asserted API contract.**
+**Planning document for sponsor integration. The local synthetic POC is separate and does not implement or verify a sponsor endpoint or field below.**
 
 ## Flow and boundaries
 
@@ -56,4 +56,4 @@ Planned contract tests cover valid units, pack rounding, stale offers, budget bo
 
 ## Technology decisions still open
 
-Runtime/framework, storage, agent framework, approval identity and deployment target are not selected. Verify the sponsor interface before choosing the adapter. An LLM may interpret requests or explain choices; it must not enforce financial authority.
+The local prototype uses Python's standard library only; this does not settle the production runtime/framework. Storage, agent framework, approval identity and deployment target are not selected. Verify the sponsor interface before choosing the adapter. An LLM may interpret requests or explain choices; it must not enforce financial authority.

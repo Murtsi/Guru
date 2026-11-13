@@ -7,5 +7,6 @@
 | 003 | 2026-11-13 | Reference workflow: lactose-free milk request, fixed offers, delegated order or human approval | Covers all three core capabilities |
 | 004 | 2026-11-13 | Proposed open contracts with deterministic server-side policy | Keeps agent choice separate from authority; exact schemas await sponsor docs |
 | 005 | 2026-11-13 | No credentials or unapproved sponsor datasets in public Git | Public hackathon repository; use private local configuration |
+| 006 | 2026-11-13 | Build an isolated local POC with Python standard library and fabricated fixtures | Provides a runnable walkthrough without waiting for sponsor access; prototype choice only, not the production stack or sponsor contract |
 
 Open: sponsor authentication/API contract, units/tax, stock/price validity, idempotency and reconciliation, runtime/storage, human authentication, data redistribution, deployment and deadline. Record evidence and trade-offs when resolving these. Do not describe a design proposal as sponsor-approved behaviour.
